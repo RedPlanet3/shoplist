@@ -10,8 +10,21 @@
     </thead>
     <tbody>
     <tr th:each="dsf : ${allRoles}">
+
+
+
+<!--        <th:url var="deleteButton" value="/deleteAuthor">-->
+<!--            <th:param name="authorId" value="${dsf.authorId}"/>-->
+<!--        </th:url>-->
         <td th:text="${dsf.id}">one</td>
         <td th:text="${dsf.name}">two</td>
+        <td>
+            <a th:href="@{/items/{id}(id=${dsf.id})}">Show items</a>
+        </td>
+        <td>
+            <a th:href="@{/deleteRole/{id}(id=${dsf.id})}">Delete role</a>
+
+        </td>
     </tr>
     </tbody>
 </table>

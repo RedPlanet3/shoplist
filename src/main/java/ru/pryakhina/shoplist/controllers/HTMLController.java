@@ -111,4 +111,16 @@ public class HTMLController {
         shopListService.delItem(deleteItem);
         return "redirect:/items";
     }
+
+    @GetMapping("/deleteRole/{id}")
+    public String deleteRole (
+//            @RequestParam("roleId") int roleId,
+            @PathVariable("id") int id,
+            Model model) {
+        Role deleteRole = shopListService.getRole(id);
+        shopListService.delRole(deleteRole);
+        return "redirect:/roles";
+    }
+
+
 }
