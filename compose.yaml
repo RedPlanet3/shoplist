@@ -1,9 +1,14 @@
+version: '3.9'
+
 services:
   postgres:
     image: 'postgres:latest'
+    restart: always
     environment:
-      - 'POSTGRES_DB=shoplist'
-      - 'POSTGRES_PASSWORD=admin'
-      - 'POSTGRES_USER=1234'
+      POSTGRES_DB: shoplist
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_USER: lena
     ports:
-      - '5434:5432'
+      - '5433:5432'
+    volumes:
+      - ./src/main/resources/docker:/docker-entrypoint-initdb.d
