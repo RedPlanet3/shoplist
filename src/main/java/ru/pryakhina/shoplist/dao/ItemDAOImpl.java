@@ -24,7 +24,7 @@ public class ItemDAOImpl implements ItemDAO {
     public List<Item> getRoleItems(int roleId) {
 
         Session session = entityManager.unwrap(Session.class);
-        Role role = session.get(Role.class, 1);
+        Role role = session.get(Role.class, roleId);
         return role.getItems();
     }
 
