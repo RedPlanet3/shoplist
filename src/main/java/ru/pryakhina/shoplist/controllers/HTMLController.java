@@ -61,10 +61,7 @@ public class HTMLController {
         return "items";
     }
 
-    @PostMapping("/roleadd")
-    public String roleAdd () {
-        return "roles";
-    }
+
 
     @GetMapping("/itemadd")
     public String itemadd(Model model) {
@@ -79,6 +76,24 @@ public class HTMLController {
         shopListService.saveItem(item);
         return "redirect:/items";
     }
+
+    @GetMapping("/addrole")
+    public String roleAdd (Model model) {
+        model.addAttribute("newrole", new Role());
+        return "addrole";
+    }
+
+    @PostMapping("/saverole")
+    public String saveRole (
+//            @ModelAttribute("newrole") Role newrole,
+            @ModelAttribute Role newrole,
+            Model model) {
+//        model.addAttribute("newrole", newrole);
+        shopListService.saveRole(newrole);
+        return "redirect:/roles";
+    }
+
+
 
     @GetMapping("/updateItem")
     public String updateItem (
