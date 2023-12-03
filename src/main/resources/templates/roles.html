@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<table>
+    <thead>
+    <tr>
+        <th th:text="id">ID</th>
+        <th th:text="name">Role name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="dsf : ${allRoles}">
+        <td th:text="${dsf.id}">one</td>
+        <td th:text="${dsf.name}">two</td>
+    </tr>
+    </tbody>
+</table>
+
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<table>
+    <thead>
+    <tr>
+        <th th:text="id">ID</th>
+        <th th:text="name">item name</th>
+        <th th:text="price">item price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="dsf : ${allItems}">
+        <td th:text="${dsf.id}">id</td>
+        <td th:text="${dsf.name}">name</td>
+        <td th:text="${dsf.price}">price</td>
+    </tr>
+    </tbody>
+</table>
+
+</html>
