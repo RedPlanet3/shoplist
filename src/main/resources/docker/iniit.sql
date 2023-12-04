@@ -10,11 +10,13 @@ CREATE TABLE items (
     price int
 );
 
-INSERT INTO roles VALUES ('Petr');
-INSERT INTO roles VALUES ('Vasya');
-INSERT INTO items VALUES (1, 'milk', 76);
-INSERT INTO items VALUES (1, 'bread', 50);
-INSERT INTO items VALUES (1, 'onion', 23);
-INSERT INTO items VALUES (1, 'chicken', 500);
-INSERT INTO items VALUES (2, 'juice', 130);
-INSERT INTO items VALUES (2, 'eggs', 45);
+INSERT INTO roles(name) VALUES ('Petr');
+INSERT INTO roles(name) VALUES ('Vasya');
+INSERT INTO roles(name) VALUES ('Egor');
+INSERT INTO items (role_id, name, price) VALUES (1, 'milk', 76);
+INSERT INTO items (role_id, name, price) VALUES (1, 'bread', 50);
+INSERT INTO items (role_id, name, price) VALUES (1, 'onion', 23);
+INSERT INTO items (role_id, name, price) VALUES (1, 'chicken', 500);
+INSERT INTO items (role_id, name, price) VALUES (2, 'juice', 130);
+INSERT INTO items (role_id, name, price) VALUES (2, 'eggs', 45);
+INSERT INTO items (role_id, name, price) VALUES (3, 'milk', 350);
