@@ -1,8 +1,9 @@
 version: '3.9'
 
 services:
-  postgres:
-    image: 'postgres:latest'
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
     restart: always
     environment:
       POSTGRES_DB: shoplist
@@ -12,3 +13,30 @@ services:
       - '5433:5432'
     volumes:
       - ./src/main/resources/docker:/docker-entrypoint-initdb.d
+  app:
+    image: 'docker-spring-boot-postgres:latest'
+    build:
+      context: src/main/docker
+    container_name: app
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5433/compose-postgres
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+
+
+#  app:
+#    image: 'deedat95/docker-spring-boot-postgres:latest'
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: app
+#    depends_on:
+#      - postgres
+#    environment:
+#      - SPRING_DATASOURSE_URL=jdbc:postgresql://localhost:5432/shoplist
+#      - SPRING_DATASOURSE_USERNAME=lena
+#      - SPRING_DATASOURSE_PASSWORD=1234
