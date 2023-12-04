@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--${role.id} ${role.name}-->
+<body>
+<!--<b th:attr="${role.id}"/>-->
+<!--<b th:text="${role.id}"/>-->
+<h2 th:text="${role.name}"/>
+<!--<a th:name="roleid" th:object="${role.id}"/>-->
 
+
+<!--<h3 th:text="${role.name}">id</h3>-->
 <table>
     <thead>
     <tr>
@@ -14,8 +22,28 @@
         <td th:text="${dsf.id}">id</td>
         <td th:text="${dsf.name}">name</td>
         <td th:text="${dsf.price}">price</td>
+
+        <td>
+            <a th:href="@{/updateItem/{id}(id=${dsf.id})}">Update</a>
+<!--            <a th:href="@{/updateItem}">Update</a>-->
+        </td>
+
+        <td>
+            <a th:href="@{/deleteitem/{id}(id=${dsf.id})}">Delete</a>
+        </td>
     </tr>
     </tbody>
+
 </table>
 
+<!--<a href="/itemadd">Add item</a>-->
+<!--<form action="#" th:action="@{/itemadd}" th:object="${roleitem}" method="get">-->
+
+<!--    <p><input type="submit" value="Add item"/></p>-->
+<!--</form>-->
+
+
+<a href="#" th:href="@{/itemadd/{id}(id=${role.getId()})}" >Add item</a>
+
+</body>
 </html>

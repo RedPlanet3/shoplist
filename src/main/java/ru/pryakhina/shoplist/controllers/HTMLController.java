@@ -49,35 +49,42 @@ public class HTMLController {
         return "items";
     }
 
-    @GetMapping("/itemadd")
+
+
+    @GetMapping("/itemadd/{id}")
     public String itemadd(
-//            @RequestParam("roleId") int roleId,
-            @ModelAttribute("roleId") int roleId,
+            @PathVariable("id") int roleid,
             Model model) {
         Item newitem = new Item();
-        model.addAttribute("newitem", newitem);
-        newitem.setId(roleId);
-        shopListService.saveItem(newitem);
+
+//        newitem.setRole(role);
+        model.addAttribute("roleid", roleid);
+        model.addAttribute("newitem", new Item());
+//        shopListService.saveItem(newitem);
         return "itemadd";
     }
-    @GetMapping("/updateItem")
+    @GetMapping("/updateItem/{id}")
     public String updateItem (
-            @ModelAttribute("newitem") Item item,
-            @ModelAttribute("roleId") int roleId,
+//            @ModelAttribute("newitem") Item item,
+//            @ModelAttribute("roleId") int roleId,
+            @PathVariable("id") int id,
             Model model
     ) {
-        Item upItem = shopListService.getItem(item.getId());
+        Item upItem = shopListService.getItem(id);
+        int roleId = upItem.getRole().getId();
         model.addAttribute("newitem", upItem);
-        model.addAttribute("roleId", roleId);
+        model.addAttribute("roleid", roleId);
         return "itemadd";
     }
-    @PostMapping("/saveitem")
+    @PostMapping("/saveitem/{roleid}")
     public String saveItem (
             @ModelAttribute("newitem") Item item,
+            @PathVariable("roleid") int roleid,
             Model model) {
-        model.addAttribute("item", item);
+//        model.addAttribute("item", item);
+        item.setRole(shopListService.getRole(roleid));
         shopListService.saveItem(item);
-        return "redirect:/items/{id}";
+        return "redirect:/items/" + roleid;
     }
 
     /** Вывод страницы с полями для ввода новой роли */
@@ -96,20 +103,15 @@ public class HTMLController {
         return "redirect:/roles";
     }
 
-
-
-    @GetMapping("/deleteitem")
-    public String deleteItem (@ModelAttribute("newitem") Item delItem) {
-        Item deleteItem = shopListService.getItem(delItem.getId());
-        shopListService.delItem(deleteItem);
-        return "redirect:/items";
+    @GetMapping("/deleteitem/{id}")
+    public String deleteItem (@PathVariable("id") int id) {
+        int roleid = shopListService.getItem(id).getRole().getId();
+        shopListService.delItem(shopListService.getItem(id));
+        return "redirect:/items/" + roleid;
     }
 
-    @GetMapping("/deleterRole/{id}")
-    public String deleteRole (
-//            @RequestParam("roleId") int roleId,
-            @PathVariable("id") int id,
-            Model model) {
+    @GetMapping("/deleteRole/{id}")
+    public String deleteRole (@PathVariable("id") int id) {
         Role deleteRole = shopListService.getRole(id);
         shopListService.delRole(deleteRole);
         return "redirect:/roles";

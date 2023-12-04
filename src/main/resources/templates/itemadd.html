@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Add item</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </head>
+    <body>
+        <form action="#" th:action="@{/saveitem/{roleid}(roleid=${roleid})}" th:object="${newitem}" method="post">
+            <p>ID <input type="text" readonly th:field="*{id}"/></p>
+            <p>Name <input type="text" th:field="*{name}"/></p>
+            <p>Price <input type="text" th:field="*{price}"/></p>
+            <p><input type="submit" value="Submit"/></p>
+        </form>
+    </body>
+</html>
