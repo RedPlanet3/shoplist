@@ -10,6 +10,11 @@ CREATE TABLE items (
     price int
 );
 
-INSERT INTO roles VALUES ('Я');
-INSERT INTO items VALUES (1, 'milk', 350);
+INSERT INTO roles VALUES ('Petr');
+INSERT INTO roles VALUES ('Vasya');
+INSERT INTO items VALUES (1, 'milk', 76);
 INSERT INTO items VALUES (1, 'bread', 50);
+INSERT INTO items VALUES (1, 'onion', 23);
+INSERT INTO items VALUES (1, 'chicken', 500);
+INSERT INTO items VALUES (2, 'juice', 130);
+INSERT INTO items VALUES (2, 'eggs', 45);
