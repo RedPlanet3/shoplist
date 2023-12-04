@@ -16,13 +16,14 @@ import java.util.List;
 @Controller
 public class HTMLController {
 
+    /** Внедрение сервиса */
     @Autowired
     private ShopListService shopListService;
 
-    /** Отображение стартовой страницы */
+    /** Отображение стартовой страницы - редирект на /roles */
     @GetMapping("/")
     public String showStartPage(){
-        return "index";
+        return "redirect:/roles";
 
     }
     /** Вывод списка ролей с возможностью добавлять, удалять роли, а также смотреть списки продуктов
@@ -40,7 +41,6 @@ public class HTMLController {
      * */
     @GetMapping("/items/{roleid}")
     public String getItems(
-//            @RequestParam("roleId") int roleId,
             @PathVariable("roleid") int roleid,
             Model model) {
         List<Item> itemList =  shopListService.getRoleItems(roleid);
@@ -49,24 +49,22 @@ public class HTMLController {
         return "items";
     }
 
-
-
+    /** Добавление нового продукта в список продуктов для роли c выбранным id
+     * @param roleid
+     * */
     @GetMapping("/itemadd/{id}")
     public String itemadd(
             @PathVariable("id") int roleid,
             Model model) {
-        Item newitem = new Item();
-
-//        newitem.setRole(role);
         model.addAttribute("roleid", roleid);
         model.addAttribute("newitem", new Item());
-//        shopListService.saveItem(newitem);
         return "itemadd";
     }
+    /** Обновление существующего продукта в списоке продуктов для роли c выбранным id
+     * @param id
+     * */
     @GetMapping("/updateItem/{id}")
     public String updateItem (
-//            @ModelAttribute("newitem") Item item,
-//            @ModelAttribute("roleId") int roleId,
             @PathVariable("id") int id,
             Model model
     ) {
@@ -79,9 +77,7 @@ public class HTMLController {
     @PostMapping("/saveitem/{roleid}")
     public String saveItem (
             @ModelAttribute("newitem") Item item,
-            @PathVariable("roleid") int roleid,
-            Model model) {
-//        model.addAttribute("item", item);
+            @PathVariable("roleid") int roleid) {
         item.setRole(shopListService.getRole(roleid));
         shopListService.saveItem(item);
         return "redirect:/items/" + roleid;
@@ -102,7 +98,8 @@ public class HTMLController {
         shopListService.saveRole(newrole);
         return "redirect:/roles";
     }
-
+    /** Удаление продукта из БД
+     * @param id  */
     @GetMapping("/deleteitem/{id}")
     public String deleteItem (@PathVariable("id") int id) {
         int roleid = shopListService.getItem(id).getRole().getId();
@@ -110,12 +107,12 @@ public class HTMLController {
         return "redirect:/items/" + roleid;
     }
 
+    /** Удаление роли из БД
+     * @param id  */
     @GetMapping("/deleteRole/{id}")
     public String deleteRole (@PathVariable("id") int id) {
         Role deleteRole = shopListService.getRole(id);
         shopListService.delRole(deleteRole);
         return "redirect:/roles";
     }
-
-
 }
