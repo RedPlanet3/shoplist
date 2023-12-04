@@ -8,7 +8,10 @@ import ru.pryakhina.shoplist.entity.Item;
 import ru.pryakhina.shoplist.entity.Role;
 
 import java.util.List;
-
+/**
+ * Реализация интерфейса DAO продуктов
+ * @author elena
+ */
 @Repository
 public class ItemDAOImpl implements ItemDAO {
 

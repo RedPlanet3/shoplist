@@ -2,7 +2,10 @@ package ru.pryakhina.shoplist.entity;
 
 import jakarta.persistence.*;
 
-
+/**
+ * Класс продуктов
+ * @author elena
+ */
 @Entity
 @Table(name = "items")
 public class Item {

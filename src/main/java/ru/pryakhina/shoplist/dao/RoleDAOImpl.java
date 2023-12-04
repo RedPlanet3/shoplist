@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.pryakhina.shoplist.entity.Role;
 import java.util.List;
-
+/**
+ * Реализация интерфейса DAO ролей
+ * @author elena
+ */
 @Repository
 public class RoleDAOImpl implements RoleDAO {
 
@@ -18,6 +21,7 @@ public class RoleDAOImpl implements RoleDAO {
     public RoleDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
+
 
     @Override
     public List<Role> getAllRoles() {

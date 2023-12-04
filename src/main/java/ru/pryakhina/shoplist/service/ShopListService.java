@@ -6,6 +6,10 @@ import ru.pryakhina.shoplist.entity.Item;
 import ru.pryakhina.shoplist.entity.Role;
 import java.util.List;
 
+/**
+ * Интерфейс Service
+ * @author elena
+ */
 public interface ShopListService {
     public List<Item> getRoleItems(int roleId);
     public List<Role> getAllRoles();

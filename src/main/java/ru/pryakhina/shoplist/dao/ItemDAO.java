@@ -4,7 +4,10 @@ import ru.pryakhina.shoplist.entity.Item;
 
 import java.util.List;
 
-
+/**
+ * Интерфейс DAO продуктов
+ * @author elena
+ */
 public interface ItemDAO {
     public List<Item> getRoleItems(int roleId);
     public void saveItem(Item item);

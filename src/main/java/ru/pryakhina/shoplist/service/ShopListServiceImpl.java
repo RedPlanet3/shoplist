@@ -9,6 +9,10 @@ import ru.pryakhina.shoplist.entity.Item;
 import ru.pryakhina.shoplist.entity.Role;
 import java.util.List;
 
+/**
+ * Реализация интерфейса Service
+ * @author elena
+ */
 @Service
 public class ShopListServiceImpl implements ShopListService {
 

@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс ролей/покупателей
+ * @author elena
+ */
+
 @Entity
 @Table(name = "roles")
 public class Role {
