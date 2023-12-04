@@ -1,8 +1,9 @@
 package ru.pryakhina.shoplist.dao;
 
+
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.pryakhina.shoplist.entity.Item;
 import ru.pryakhina.shoplist.entity.Role;
@@ -15,13 +16,8 @@ import java.util.List;
 @Repository
 public class ItemDAOImpl implements ItemDAO {
 
+    @PersistenceContext
     private EntityManager entityManager;
-
-    @Autowired
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    public ItemDAOImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
 
     @Override
     public List<Item> getRoleItems(int roleId) {

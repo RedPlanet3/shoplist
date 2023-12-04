@@ -1,6 +1,7 @@
 package ru.pryakhina.shoplist.dao;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +14,14 @@ import java.util.List;
  */
 @Repository
 public class RoleDAOImpl implements RoleDAO {
-
+    @PersistenceContext
     private EntityManager entityManager;
 
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    @Autowired
-    public RoleDAOImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+//    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+//    @Autowired
+//    public RoleDAOImpl(EntityManager entityManager) {
+//        this.entityManager = entityManager;
+//    }
 
 
     @Override
@@ -30,7 +31,6 @@ public class RoleDAOImpl implements RoleDAO {
 
         List<Role> roles = session.createQuery("from Role", Role.class)
                 .getResultList();
-//        Collections.sort(roles);
         return roles;
     }
 

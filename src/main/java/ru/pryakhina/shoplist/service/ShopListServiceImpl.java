@@ -1,6 +1,8 @@
 package ru.pryakhina.shoplist.service;
 
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.pryakhina.shoplist.dao.ItemDAO;
@@ -73,34 +75,4 @@ public class ShopListServiceImpl implements ShopListService {
         return roleDAO.getRole(id);
     }
 
-//    @Override
-//    @Transactional
-//    public RoleDto getRoleDto(int id) {
-//        Role role = roleDAO.getRole(id);
-//
-//        RoleDto roleDto = new RoleDto();
-//        roleDto.setRoleId(role.getRoleId());
-//        roleDto.setRoleName(role.getRoleName());
-//        roleDto.setGenre(role.getGenre());
-//        roleDto.setItems(mapItemsWithoutRole(role.getItems()));
-//        return roleDto;
-//    }
-//
-//    private List<ItemDto> mapItemsWithoutRole(List<Item> items) {
-//        if (items == null || items.isEmpty()) {
-//            return null;
-//        }
-//
-//        List<ItemDto> answer = new ArrayList<>();
-//        for (Item a: items) {
-//            ItemDto dto = new ItemDto();
-//            dto.setItemId(a.getItemId());
-//            dto.setItemFullName(a.getItemFullName());
-//            if (a.getRolesList() != null && !a.getRolesList().isEmpty()) {
-//                dto.setRolesCount(a.getRolesList().size());
-//            }
-//            answer.add(dto);
-//        }
-//        return answer;
-//    }
 }
