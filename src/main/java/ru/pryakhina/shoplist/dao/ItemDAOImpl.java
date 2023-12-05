@@ -16,9 +16,13 @@ import java.util.List;
 @Repository
 public class ItemDAOImpl implements ItemDAO {
 
+    /** Внедрение зависимости EntityManager*/
     @PersistenceContext
     private EntityManager entityManager;
 
+    /** Функция получения списка Items, принадлежащих роли с заданным ID
+     * @param roleId
+     * @return List<Item>*/
     @Override
     public List<Item> getRoleItems(int roleId) {
 
@@ -27,18 +31,26 @@ public class ItemDAOImpl implements ItemDAO {
         return role.getItems();
     }
 
+    /** Процедура сохранения Item в БД
+     * @param item
+     * */
     @Override
     public void saveItem(Item item) {
         Session session = entityManager.unwrap(Session.class);
         session.saveOrUpdate(item);
     }
 
+    /** Процедура уладения Item из БД
+     * @param item*/
     @Override
     public void delItem(Item item) {
         Session session = entityManager.unwrap(Session.class);
         session.delete(item);
     }
 
+    /** Функция получения Item из БД по его ID
+     * @param itemId
+     * @return Item*/
     @Override
     public Item getItem(int itemId) {
         Session session = entityManager.unwrap(Session.class);

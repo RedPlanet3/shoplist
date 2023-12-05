@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.pryakhina.shoplist.entity.Item;
 import ru.pryakhina.shoplist.entity.Role;
 import ru.pryakhina.shoplist.service.ShopListService;
-
 import java.util.List;
 
 /**
@@ -26,7 +25,8 @@ public class HTMLController {
         return "redirect:/roles";
 
     }
-    /** Вывод списка ролей с возможностью добавлять, удалять роли, а также смотреть списки продуктов
+    /** Вывод списка ролей с возможностью добавлять,
+     * удалять роли, а также смотреть списки продуктов
      * для каждой роли*/
     @GetMapping("/roles")
     public String getRoles(
@@ -49,7 +49,8 @@ public class HTMLController {
         return "items";
     }
 
-    /** Добавление нового продукта в список продуктов для роли c выбранным id
+    /** Добавление нового продукта в список
+     * продуктов для роли c выбранным id
      * @param roleid
      * */
     @GetMapping("/itemadd/{id}")
@@ -60,7 +61,8 @@ public class HTMLController {
         model.addAttribute("newitem", new Item());
         return "itemadd";
     }
-    /** Обновление существующего продукта в списоке продуктов для роли c выбранным id
+    /** Обновление существующего продукта в списоке
+     * продуктов для роли c выбранным id
      * @param id
      * */
     @GetMapping("/updateItem/{id}")
@@ -74,6 +76,11 @@ public class HTMLController {
         model.addAttribute("roleid", roleId);
         return "itemadd";
     }
+
+    /** Сохранение item для текущей ролиО
+     * @param item
+     * @param roleid
+     * */
     @PostMapping("/saveitem/{roleid}")
     public String saveItem (
             @ModelAttribute("newitem") Item item,

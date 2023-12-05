@@ -1,10 +1,9 @@
 package ru.pryakhina.shoplist;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
+/** Класс запуска SpringApplication*/
 //@SpringBootApplication
 @SpringBootApplication
 public class ShoplistApplication {

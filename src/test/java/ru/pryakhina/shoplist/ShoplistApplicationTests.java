@@ -1,37 +1,21 @@
 package ru.pryakhina.shoplist;
 
-import jakarta.persistence.PersistenceContext;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import ru.pryakhina.shoplist.dao.ItemDAO;
 import ru.pryakhina.shoplist.dao.RoleDAO;
-
-//@SpringBootTest
-//class ShoplistApplicationTests {
-//
-//	@Test
-//	void contextLoads() {
-//	}
-//
-//}
 
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import ru.pryakhina.shoplist.entity.Item;
 import ru.pryakhina.shoplist.entity.Role;
-
 import java.util.List;
 
 
 //@DataJpaTest
 //@SpringBootTest
 
-//@DataJpaTest
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //@Testcontainers
 

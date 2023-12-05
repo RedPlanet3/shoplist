@@ -4,12 +4,18 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.hibernate.annotations.Comment;
 import org.springframework.stereotype.Component;
 
+/** Класс LoggingAspect для реализации логирования*/
 @Component
 @Aspect
 public class LoggingAspect {
+
+    /** Функция логирования - отслеживание запуска методов
+     * в ru.pryakhina.shoplist.dao.
+     * Получение имени запускаемого метода логирование начала и оканцания выполнения
+     * @param proceedingJoinPoint
+     * @return targetMethodResult*/
     @Around("execution(* ru.pryakhina.shoplist.dao.*.*(..))")
     public Object aroundAllRepositoryMethodAdvice(
             ProceedingJoinPoint proceedingJoinPoint) throws Throwable
