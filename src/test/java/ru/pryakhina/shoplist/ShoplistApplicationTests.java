@@ -19,7 +19,6 @@ import java.util.List;
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //@Testcontainers
 
-
 @SpringBootTest
 public class ShoplistApplicationTests {
 //

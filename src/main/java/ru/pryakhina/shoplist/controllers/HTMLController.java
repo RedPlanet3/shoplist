@@ -101,7 +101,6 @@ public class HTMLController {
     public String saveRole (
             @ModelAttribute Role newrole,
             Model model) {
-//        model.addAttribute("newrole", newrole);
         shopListService.saveRole(newrole);
         return "redirect:/roles";
     }
