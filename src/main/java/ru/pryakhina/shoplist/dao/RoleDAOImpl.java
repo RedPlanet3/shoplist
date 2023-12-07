@@ -2,7 +2,7 @@ package ru.pryakhina.shoplist.dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.hibernate.Session;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 import ru.pryakhina.shoplist.entity.Role;
 import java.util.List;
@@ -20,10 +20,8 @@ public class RoleDAOImpl implements RoleDAO {
      * @return List<Role>*/
     @Override
     public List<Role> getAllRoles() {
-
-        Session session = entityManager.unwrap(Session.class);
-        List<Role> roles = session.createQuery("from Role", Role.class)
-                .getResultList();
+        Query query = entityManager.createQuery("from Role", Role.class);
+        List<Role> roles = query.getResultList();
         return roles;
     }
 
@@ -31,16 +29,17 @@ public class RoleDAOImpl implements RoleDAO {
      * @param role*/
     @Override
     public void saveRole(Role role) {
-        Session session = entityManager.unwrap(Session.class);
-        session.saveOrUpdate(role);
+        Role newRole = entityManager.merge(role);
+        role.setId(newRole.getId());
     }
 
     /** Процедура уладения Role из БД
      * @param role*/
     @Override
     public void delRole(Role role) {
-        Session session = entityManager.unwrap(Session.class);
-        session.delete(role);
+        Query query = entityManager.createQuery("delete from Role where id =:roleid");
+        query.setParameter("roleid", role.getId());
+        query.executeUpdate();
     }
 
     /** Функция получения Role из БД по его ID
@@ -48,8 +47,7 @@ public class RoleDAOImpl implements RoleDAO {
      * @return role*/
     @Override
     public Role getRole(int roleId) {
-        Session session = entityManager.unwrap(Session.class);
-        Role role = session.get(Role.class, roleId);
+        Role role = entityManager.find(Role.class, roleId);
         return role;
     }
 }

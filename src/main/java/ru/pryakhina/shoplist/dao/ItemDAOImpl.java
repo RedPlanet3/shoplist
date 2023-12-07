@@ -3,7 +3,7 @@ package ru.pryakhina.shoplist.dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.hibernate.Session;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 import ru.pryakhina.shoplist.entity.Item;
 import ru.pryakhina.shoplist.entity.Role;
@@ -25,9 +25,7 @@ public class ItemDAOImpl implements ItemDAO {
      * @return List<Item>*/
     @Override
     public List<Item> getRoleItems(int roleId) {
-
-        Session session = entityManager.unwrap(Session.class);
-        Role role = session.get(Role.class, roleId);
+        Role role = entityManager.find(Role.class, roleId);
         return role.getItems();
     }
 
@@ -36,16 +34,16 @@ public class ItemDAOImpl implements ItemDAO {
      * */
     @Override
     public void saveItem(Item item) {
-        Session session = entityManager.unwrap(Session.class);
-        session.saveOrUpdate(item);
+        entityManager.merge(item);
     }
 
     /** Процедура уладения Item из БД
      * @param item*/
     @Override
     public void delItem(Item item) {
-        Session session = entityManager.unwrap(Session.class);
-        session.delete(item);
+        Query query = entityManager.createQuery("delete from Item where id =:itemid");
+        query.setParameter("itemid", item.getId());
+        query.executeUpdate();
     }
 
     /** Функция получения Item из БД по его ID
@@ -53,8 +51,7 @@ public class ItemDAOImpl implements ItemDAO {
      * @return Item*/
     @Override
     public Item getItem(int itemId) {
-        Session session = entityManager.unwrap(Session.class);
-        Item item = session.get(Item.class, itemId);
+        Item item = entityManager.find(Item.class, itemId);
         return item;
     }
 }
