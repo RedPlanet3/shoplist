@@ -1,15 +1,17 @@
 package ru.pryakhina.shoplist.service;
 
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.pryakhina.shoplist.dao.ItemDAO;
-import ru.pryakhina.shoplist.dao.RoleDAO;
+import ru.pryakhina.shoplist.dao.ItemRepository;
+import ru.pryakhina.shoplist.dao.RoleRepository;
 import ru.pryakhina.shoplist.entity.Item;
 import ru.pryakhina.shoplist.entity.Role;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Реализация интерфейса Service
@@ -19,24 +21,24 @@ import java.util.List;
 public class ShopListServiceImpl implements ShopListService {
 
     /**
-     * Поле репозитория продуктов ItemDAO
+     * Поле репозитория продуктов ItemRepository
      */
-    private ItemDAO itemDAO;
+    private ItemRepository itemRepository;
 
     /**
-     * Поле репозитория ролей RoleDAO
+     * Поле репозитория ролей RoleRepository
      */
-    private RoleDAO roleDAO;
+    private RoleRepository roleRepository;
 
     /**
      * Конструктор - внедрение зависимостей
-     * @param itemDAO - продукты
-     * @param roleDAO - роли
+     * @param itemRepository - продукты
+     * @param roleRepository - роли
      */
     @Autowired
-    public ShopListServiceImpl(ItemDAO itemDAO, RoleDAO roleDAO) {
-        this.itemDAO = itemDAO;
-        this.roleDAO = roleDAO;
+    public ShopListServiceImpl(ItemRepository itemRepository, RoleRepository roleRepository) {
+        this.itemRepository = itemRepository;
+        this.roleRepository = roleRepository;
     }
 
     /** Функция получения списка Items, принадлежащих роли с заданным ID
@@ -45,7 +47,11 @@ public class ShopListServiceImpl implements ShopListService {
     @Override
     @Transactional
     public List<Item> getRoleItems(int roleId) {
-        return itemDAO.getRoleItems(roleId);
+        Optional<Role> roleOptional = roleRepository.findById(roleId);
+        if (roleOptional.isEmpty())
+            return null;
+        List<Item> items = roleOptional.get().getItems();
+        return items;
     }
 
     /** Функция получения списка всех ролей из БД
@@ -53,7 +59,7 @@ public class ShopListServiceImpl implements ShopListService {
     @Override
     @Transactional
     public List<Role> getAllRoles() {
-        return roleDAO.getAllRoles();
+        return roleRepository.findAll();
     }
 
     /** Процедура сохранения Item в БД
@@ -62,7 +68,7 @@ public class ShopListServiceImpl implements ShopListService {
     @Override
     @Transactional
     public void saveItem(Item item) {
-        itemDAO.saveItem(item);
+        itemRepository.save(item);
     }
 
     /** Процедура сохранения Role в БД
@@ -71,7 +77,7 @@ public class ShopListServiceImpl implements ShopListService {
     @Override
     @Transactional
     public void saveRole(Role role) {
-        roleDAO.saveRole(role);
+        roleRepository.save(role);
     }
 
     /** Процедура уладения Role из БД
@@ -79,7 +85,7 @@ public class ShopListServiceImpl implements ShopListService {
     @Override
     @Transactional
     public void delRole(Role role) {
-        roleDAO.delRole(role);
+        roleRepository.delete(role);
     }
 
     /** Процедура уладения Item из БД
@@ -87,7 +93,7 @@ public class ShopListServiceImpl implements ShopListService {
     @Override
     @Transactional
     public void delItem(Item item) {
-        itemDAO.delItem(item);
+        itemRepository.delete(item);
     }
 
     /** Функция получения Item из БД по его ID
@@ -96,7 +102,8 @@ public class ShopListServiceImpl implements ShopListService {
     @Override
     @Transactional
     public Item getItem(int itemId) {
-        return itemDAO.getItem(itemId);
+        Optional<Item> itemOptional = itemRepository.findById(itemId);
+        return itemOptional.orElse(null);
     }
 
     /** Функция получения Role из БД по его ID
@@ -105,7 +112,7 @@ public class ShopListServiceImpl implements ShopListService {
     @Override
     @Transactional
     public Role getRole(int id) {
-        return roleDAO.getRole(id);
+        return roleRepository.findById(id).get();
     }
 
 }

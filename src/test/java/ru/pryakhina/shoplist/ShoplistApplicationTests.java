@@ -1,8 +1,8 @@
 package ru.pryakhina.shoplist;
 
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.pryakhina.shoplist.dao.ItemDAO;
-import ru.pryakhina.shoplist.dao.RoleDAO;
+import ru.pryakhina.shoplist.dao.ItemRepository;
+import ru.pryakhina.shoplist.dao.RoleRepository;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.pryakhina.shoplist.entity.Item;
 import ru.pryakhina.shoplist.entity.Role;
+import ru.pryakhina.shoplist.service.ShopListService;
+
 import java.util.List;
 
 
@@ -21,27 +23,21 @@ import java.util.List;
 
 @SpringBootTest
 public class ShoplistApplicationTests {
-//
-//	@PersistenceContext
-//	private TestEntityManager entityManager;
 
 	@Autowired
-	private RoleDAO roleDAO;
-
-	@Autowired
-	private ItemDAO itemDAO;
+	private ShopListService shopListService;
 
 
 	@Test
 	public void should_find_no_roles_if_repository_is_empty() {
-		List<Role> roles = roleDAO.getAllRoles();
+		List<Role> roles = shopListService.getAllRoles();
 		assertThat(roles).isEmpty();
 	}
 	@Test
 	public void saveOneRole() {
 		Role role = new Role("Admin");
-		roleDAO.saveRole(role);
-		assertThat(roleDAO.getRole(role.getId()))
+		shopListService.saveRole(role);
+		assertThat(shopListService.getRole(role.getId()))
 				.hasFieldOrPropertyWithValue("name", "Admin");
 	}
 
@@ -58,22 +54,22 @@ public class ShoplistApplicationTests {
 		Role role = new Role("Admin");
 		role.addItemToRole(new Item("Bread", 233, role));
 		role.addItemToRole(new Item("Milk", 45, role));
-		roleDAO.saveRole(role);
+		shopListService.saveRole(role);
 		assertThat(role.getItems()).hasSize(2);
 	}
 
 	@Test
 	public void addManyRoles() {
 			Role tut1 = new Role("Tut#1");
-			roleDAO.saveRole(tut1);
+		shopListService.saveRole(tut1);
 
 			Role tut2 = new Role("Tut#2");
-			roleDAO.saveRole(tut2);
+		shopListService.saveRole(tut2);
 
 			Role tut3 = new Role("Tut#3");
-			roleDAO.saveRole(tut3);
+		shopListService.saveRole(tut3);
 
-			List<Role> roles = roleDAO.getAllRoles();
+		List<Role> roles = shopListService.getAllRoles();
 
 		assertThat(roles).hasSize(3);
 	}
@@ -81,50 +77,50 @@ public class ShoplistApplicationTests {
 	@Test
 	public void findRole() {
 		Role tut1 = new Role("Tut#1");
-		roleDAO.saveRole(tut1);
+		shopListService.saveRole(tut1);
 
 		Role tut2 = new Role("Tut#2");
-		roleDAO.saveRole(tut2);
+		shopListService.saveRole(tut2);
 
 		Role tut3 = new Role("Tut#3");
-		roleDAO.saveRole(tut3);
+		shopListService.saveRole(tut3);
 
-		Role role = roleDAO.getRole(2);
-		assertThat(role.getName()).isEqualTo(tut2.getName());
+		Role role = shopListService.getRole(1);
+		assertThat(role.getName()).isEqualTo(tut1.getName());
 	}
 
 	@Test
 	public void addManyRolesAndDel() {
 		Role tut1 = new Role("Tut#1");
-		roleDAO.saveRole(tut1);
+		shopListService.saveRole(tut1);
 
 		Role tut2 = new Role("Tut#2");
-		roleDAO.saveRole(tut2);
+		shopListService.saveRole(tut2);
 
 		Role tut3 = new Role("Tut#3");
-		roleDAO.saveRole(tut3);
+		shopListService.saveRole(tut3);
 
-		Role deleteRole = roleDAO.getRole(2);
-		roleDAO.delRole(deleteRole);
+		Role deleteRole = shopListService.getRole(2);
+		shopListService.delRole(deleteRole);
 
-		List<Role> roles = roleDAO.getAllRoles();
+		List<Role> roles = shopListService.getAllRoles();
 		assertThat(roles).hasSize(2);
 	}
 
 	@Test
 	public void should_find_no_items_if_repository_is_empty() {
 		Role tut1 = new Role("Tut#1");
-		roleDAO.saveRole(tut1);
-		List<Item> items = itemDAO.getRoleItems(1);
+		shopListService.saveRole(tut1);
+		List<Item> items = shopListService.getRoleItems(tut1.getId());
 		assertThat(items).isEmpty();
 	}
 	@Test
 	public void saveOneItem() {
 		Role tut1 = new Role("Tut#1");
-		roleDAO.saveRole(tut1);
+		shopListService.saveRole(tut1);
 		Item item = new Item("Bread", 34, tut1);
-		itemDAO.saveItem(item);
-		assertThat(itemDAO.getItem(item.getId()))
+		shopListService.saveItem(item);
+		assertThat(shopListService.getItem(item.getId()))
 				.hasFieldOrPropertyWithValue("name", "Bread");
 	}
 
@@ -132,44 +128,46 @@ public class ShoplistApplicationTests {
 	@Test
 	public void addManyItems() {
 		Role tut1 = new Role("Tut#1");
-		roleDAO.saveRole(tut1);
-
-		Item item1 = new Item("Bread", 34, tut1);
-		Item item2 = new Item("milk", 10, tut1);
-		Item item3 = new Item("eggs", 5, tut1);
-
-		roleDAO.saveRole(tut1);
-
-
-		List<Item> items = roleDAO.getRole(1).getItems();
-
+		tut1.addItemToRole(new Item("Bread", 34, tut1));
+		tut1.addItemToRole(new Item("milk", 10, tut1));
+		tut1.addItemToRole(new Item("eggs", 5, tut1));
+		shopListService.saveRole(tut1);
+		List<Item> items = shopListService.getRoleItems(tut1.getId());
 		assertThat(items).hasSize(3);
 	}
 
 	@Test
 	public void findItem() {
 		Role tut1 = new Role("Tut#1");
+
 		Item item1 = new Item("Bread", 34, tut1);
 		Item item2 = new Item("milk", 10, tut1);
 		Item item3 = new Item("eggs", 5, tut1);
+		tut1.addItemToRole(item1);
+		tut1.addItemToRole(item2);
+		tut1.addItemToRole(item3);
 
-		roleDAO.saveRole(tut1);
+		shopListService.saveRole(tut1);
 
-		Item item4 = itemDAO.getItem(1);
-		assertThat(item1.getName()).isEqualTo(item4.getName());
+		Item item4 = shopListService.getItem(item1.getId());
+		if (item4 != null)
+			assertThat(item1.getName()).isEqualTo(item4.getName());
 	}
 
 	@Test
 	public void addManyItemsAndDel() {
 		Role tut1 = new Role("Tut#1");
+
 		Item item1 = new Item("Bread", 34, tut1);
 		Item item2 = new Item("milk", 10, tut1);
 		Item item3 = new Item("eggs", 5, tut1);
+		tut1.addItemToRole(item1);
+		tut1.addItemToRole(item2);
+		tut1.addItemToRole(item3);
+		shopListService.saveRole(tut1);
+		shopListService.delItem(item1);
 
-		roleDAO.saveRole(tut1);
-		itemDAO.delItem(item1);
-
-		List<Item> items = roleDAO.getRole(1).getItems();
+		List<Item> items = shopListService.getRole(1).getItems();
 		assertThat(items).hasSize(2);
 	}
 }

@@ -16,7 +16,6 @@ public interface ShopListService {
     public void saveItem(Item item);
     public void saveRole(Role role);
 
-    @Transactional
     void delRole(Role role);
     public void delItem(Item item);
     public Item getItem(int itemId);
