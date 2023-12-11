@@ -8,8 +8,6 @@ import ru.pryakhina.shoplist.dao.ItemRepository;
 import ru.pryakhina.shoplist.dao.RoleRepository;
 import ru.pryakhina.shoplist.entity.Item;
 import ru.pryakhina.shoplist.entity.Role;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +45,8 @@ public class ShopListServiceImpl implements ShopListService {
     @Override
     @Transactional
     public List<Item> getRoleItems(int roleId) {
-        Optional<Role> roleOptional = roleRepository.findById(roleId);
+//        return itemRepository.findByIdWithItems(roleId);
+        Optional<Role> roleOptional = roleRepository.findByIdWithItems(roleId);
         if (roleOptional.isEmpty())
             return null;
         List<Item> items = roleOptional.get().getItems();
@@ -114,5 +113,4 @@ public class ShopListServiceImpl implements ShopListService {
     public Role getRole(int id) {
         return roleRepository.findById(id).get();
     }
-
 }

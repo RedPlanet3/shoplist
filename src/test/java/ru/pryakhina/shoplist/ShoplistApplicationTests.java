@@ -1,25 +1,14 @@
 package ru.pryakhina.shoplist;
 
+import jakarta.transaction.Transactional;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.pryakhina.shoplist.dao.ItemRepository;
-import ru.pryakhina.shoplist.dao.RoleRepository;
-
-
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.pryakhina.shoplist.entity.Item;
 import ru.pryakhina.shoplist.entity.Role;
 import ru.pryakhina.shoplist.service.ShopListService;
-
 import java.util.List;
-
-
-//@DataJpaTest
-//@SpringBootTest
-
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@Testcontainers
 
 @SpringBootTest
 public class ShoplistApplicationTests {
@@ -75,6 +64,7 @@ public class ShoplistApplicationTests {
 	}
 
 	@Test
+	@Transactional
 	public void findRole() {
 		Role tut1 = new Role("Tut#1");
 		shopListService.saveRole(tut1);
@@ -90,6 +80,7 @@ public class ShoplistApplicationTests {
 	}
 
 	@Test
+//	@Transactional
 	public void addManyRolesAndDel() {
 		Role tut1 = new Role("Tut#1");
 		shopListService.saveRole(tut1);
@@ -100,8 +91,9 @@ public class ShoplistApplicationTests {
 		Role tut3 = new Role("Tut#3");
 		shopListService.saveRole(tut3);
 
-		Role deleteRole = shopListService.getRole(2);
-		shopListService.delRole(deleteRole);
+//		Role deleteRole = shopListService.getRole(2);
+//		shopListService.delRole(deleteRole);
+		shopListService.delRole(tut2);
 
 		List<Role> roles = shopListService.getAllRoles();
 		assertThat(roles).hasSize(2);
@@ -126,6 +118,7 @@ public class ShoplistApplicationTests {
 
 
 	@Test
+//	@Transactional
 	public void addManyItems() {
 		Role tut1 = new Role("Tut#1");
 		tut1.addItemToRole(new Item("Bread", 34, tut1));
@@ -155,19 +148,20 @@ public class ShoplistApplicationTests {
 	}
 
 	@Test
+	@Transactional
 	public void addManyItemsAndDel() {
 		Role tut1 = new Role("Tut#1");
-
+		shopListService.saveRole(tut1);
 		Item item1 = new Item("Bread", 34, tut1);
 		Item item2 = new Item("milk", 10, tut1);
 		Item item3 = new Item("eggs", 5, tut1);
 		tut1.addItemToRole(item1);
 		tut1.addItemToRole(item2);
 		tut1.addItemToRole(item3);
-		shopListService.saveRole(tut1);
-		shopListService.delItem(item1);
 
 		List<Item> items = shopListService.getRole(1).getItems();
+		shopListService.delItem(item1);
+		items = shopListService.getRole(tut1.getId()).getItems();
 		assertThat(items).hasSize(2);
 	}
 }
